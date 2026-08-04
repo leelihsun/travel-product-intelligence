@@ -6,6 +6,7 @@ const state={
   search:"",
   weeks:new Set(),
   products:new Set(),
+  platforms:new Set(),
   types:new Set(),
   competitors:new Set(),
   sort:"newest",
@@ -60,6 +61,21 @@ function normalizeRow(row,index){
   normalized["競品"]=firstValue(row,["競品","競業","競品名稱","品牌"]);
   normalized["發現日期"]=normalizeDate(firstValue(row,["發現日期","日期","發布日期"]));
   normalized["營業項目"]=firstValue(row,["營業項目","產品","產品項目"]);
+  normalized["平台"]=firstValue(row,["平台","Platform","來源平台"]);
+
+  // 相容舊資料：舊版把 App 放在營業項目內。
+  const productValues=split(normalized["營業項目"]);
+  if(!normalized["平台"]&&productValues.includes("App")){
+    normalized["平台"]="App";
+  }
+  normalized["營業項目"]=productValues.filter(v=>v!=="App").join(",");
+
+  // 若平台欄仍為空，依官方來源做保守判斷。
+  if(!normalized["平台"]){
+    const source=firstValue(row,["官方來源","來源名稱"]);
+    if(/App Store|Google Play|iOS|Android/i.test(source))normalized["平台"]="App";
+  }
+
   normalized["情報類型"]=firstValue(row,["情報類型","類型"]);
   normalized["PM 快速摘要"]=firstValue(row,["PM 快速摘要","快速摘要"]);
   normalized["來源連結"]=firstValue(row,["來源連結","來源 URL","來源網址"]);
@@ -244,6 +260,7 @@ function renderFilter(id,entries,set){
 function buildFilters(){
   renderDateFilters();
   renderFilter("productFilters",counts("營業項目",true),state.products);
+  renderFilter("platformFilters",counts("平台",true),state.platforms);
   renderFilter("typeFilters",counts("情報類型",true),state.types);
   renderFilter("competitorFilters",counts("競品"),state.competitors);
 }
@@ -254,12 +271,13 @@ function filtered(){
   const list=events.filter(e=>{
     const hay=[
       e["標題"],e["PM 快速摘要"],e["情報摘要"],e["PM Insight"],
-      e["Tag"],e["競品"],e["營業項目"],e["情報類型"]
+      e["Tag"],e["競品"],e["營業項目"],e["平台"],e["情報類型"]
     ].join(" ").toLowerCase();
 
     return (!q||hay.includes(q))
       &&(!state.weeks.size||state.weeks.has(weekKeyFromDate(e["發現日期"])))
       &&(!state.products.size||split(e["營業項目"]).some(v=>state.products.has(v)))
+      &&(!state.platforms.size||split(e["平台"]).some(v=>state.platforms.has(v)))
       &&(!state.types.size||split(e["情報類型"]).some(v=>state.types.has(v)))
       &&(!state.competitors.size||state.competitors.has(e["競品"]));
   });
@@ -317,6 +335,7 @@ function render(){
       <div class="tag-groups">
         <div class="tag-row">
           ${split(e["營業項目"]).map(v=>`<span class="tag product-tag">${esc(v)}</span>`).join("")}
+          ${split(e["平台"]).map(v=>`<span class="tag platform-tag">${esc(v)}</span>`).join("")}
         </div>
         <div class="tag-row">
           ${split(e["情報類型"]).map(v=>`<span class="tag type-tag">${esc(v)}</span>`).join("")}
@@ -357,6 +376,7 @@ function openDetail(e){
       <div class="detail-meta">
         <span class="tag brand-tag">${esc(e["競品"])}</span>
         <span class="tag date-tag">${esc(formatFullDate(e["發現日期"]))}</span>
+        ${split(e["平台"]).map(v=>`<span class="tag platform-tag">${esc(v)}</span>`).join("")}
         ${split(e["情報類型"]).map(v=>`<span class="tag type-tag">${esc(v)}</span>`).join("")}
         ${e["建議行動"]?`<span class="action-badge ${esc(e["建議行動"])}">${esc(e["建議行動"])}</span>`:""}
       </div>
@@ -390,6 +410,7 @@ $("resetFilters").onclick=()=>{
   state.search="";
   state.weeks.clear();
   state.products.clear();
+  state.platforms.clear();
   state.types.clear();
   state.competitors.clear();
   state.sort="newest";

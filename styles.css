@@ -32,16 +32,17 @@ body.drawer-open{overflow:hidden}
 button,input,select{font:inherit}
 
 .topbar{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:24px;
-padding:14px 24px;
-background:var(--surface);
-border-bottom:1px solid var(--line);
-position:sticky;
-top:0;
-z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  min-height:82px;
+  padding:14px 28px;
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
 .brand-block{
@@ -52,19 +53,19 @@ z-index:20;
 }
 
 .logo-wrap{
-width:52px;
-height:52px;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-shrink:0;
+  width:58px;
+  height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 58px;
 }
 
 .cola-logo{
-width:52px;
-height:52px;
-object-fit:contain;
-display:block;
+  width:58px;
+  height:58px;
+  object-fit:contain;
+  display:block;
 }
 
 .product-title{
@@ -350,6 +351,7 @@ display:block;
 }
 
 .product-tag{background:#eef3fb;color:#315d9b}
+.platform-tag{background:#e7f7f4;color:#127064}
 .type-tag{background:var(--purple-soft);color:var(--purple)}
 
 .card-footer{
@@ -534,11 +536,10 @@ display:block;
 
   .logo-wrap,
   .cola-logo{
-width:52px;
-height:52px;
-object-fit:contain;
-display:block;
-}
+    width:48px;
+    height:48px;
+    flex-basis:48px;
+  }
 
   .product-title{
     padding-left:10px;
@@ -573,7 +574,3 @@ display:block;
     flex-direction:column;
   }
 }
-
-.header-tools{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:nowrap;}
-.search-block{width:360px;flex:none;}
-.period-block{flex:none;}
