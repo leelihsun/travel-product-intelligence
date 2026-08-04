@@ -5,22 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="可樂旅遊｜旅遊產品情報中心">
   <title>可樂旅遊｜旅遊產品情報中心</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+
   <header class="topbar">
+
     <div class="brand-block">
-      <div class="cola-logo">
-        <span class="cola-main">可樂旅遊</span>
-        <span class="cola-sub">COLATOUR</span>
-      </div>
+
+      <img
+        class="cola-logo"
+        src="assets/logo/colatour_logo.png"
+        alt="可樂旅遊 Logo">
+
       <div class="product-title">
         <h1>旅遊產品情報中心</h1>
         <p>Travel Product Intelligence</p>
       </div>
+
     </div>
 
     <div class="period-block">
@@ -29,37 +37,59 @@
     </div>
 
     <div class="search-block">
-      <input id="searchInput" type="search" placeholder="搜尋標題、摘要、PM Insight、Tag">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="搜尋標題、摘要、PM Insight、Tag">
     </div>
+
   </header>
 
   <main class="app-shell">
+
     <aside class="sidebar">
+
       <section class="filter-section">
-        <div class="filter-heading"><h2>日期</h2></div>
+        <div class="filter-heading">
+          <h2>日期</h2>
+        </div>
         <div id="dateFilters" class="date-tree"></div>
       </section>
 
       <section class="filter-section">
-        <div class="filter-heading"><h2>營業項目</h2></div>
+        <div class="filter-heading">
+          <h2>營業項目</h2>
+        </div>
         <div id="productFilters" class="filter-list"></div>
       </section>
 
       <section class="filter-section">
-        <div class="filter-heading"><h2>情報類型</h2></div>
+        <div class="filter-heading">
+          <h2>情報類型</h2>
+        </div>
         <div id="typeFilters" class="filter-list"></div>
       </section>
 
       <section class="filter-section">
-        <div class="filter-heading"><h2>競品</h2></div>
+        <div class="filter-heading">
+          <h2>競品</h2>
+        </div>
         <div id="competitorFilters" class="filter-list"></div>
       </section>
 
-      <button id="resetFilters" class="reset-button" type="button">清除所有篩選</button>
+      <button
+        id="resetFilters"
+        class="reset-button"
+        type="button">
+        清除所有篩選
+      </button>
+
     </aside>
 
     <section class="main-content">
+
       <div class="toolbar">
+
         <div>
           <span class="toolbar-label">共</span>
           <strong id="visibleCount">0</strong>
@@ -70,28 +100,59 @@
           <option value="newest">最新發布</option>
           <option value="oldest">最舊發布</option>
         </select>
+
       </div>
 
       <div id="feed" class="feed"></div>
 
-      <div id="emptyState" class="empty-state" hidden>
+      <div
+        id="emptyState"
+        class="empty-state"
+        hidden>
+
         <h2>沒有符合條件的情報</h2>
         <p>請調整日期、營業項目、情報類型、競品或搜尋關鍵字。</p>
+
       </div>
 
-      <nav id="pagination" class="pagination" aria-label="分頁"></nav>
+      <nav
+        id="pagination"
+        class="pagination"
+        aria-label="分頁">
+      </nav>
+
     </section>
+
   </main>
 
-  <div id="detailOverlay" class="detail-overlay" hidden>
-    <button id="overlayBackdrop" class="overlay-backdrop" aria-label="關閉詳情"></button>
+  <div
+    id="detailOverlay"
+    class="detail-overlay"
+    hidden>
+
+    <button
+      id="overlayBackdrop"
+      class="overlay-backdrop"
+      aria-label="關閉詳情">
+    </button>
+
     <aside class="detail-panel">
-      <button id="closeDetail" class="close-button" aria-label="關閉">×</button>
+
+      <button
+        id="closeDetail"
+        class="close-button"
+        aria-label="關閉">
+        ×
+      </button>
+
       <div id="detailContent"></div>
+
     </aside>
+
   </div>
 
   <script src="config.js"></script>
   <script src="app.js" defer></script>
+
 </body>
 </html>
