@@ -1,16 +1,19 @@
-# 旅遊產品情報中心 v2
+# 旅遊產品情報中心 v2.4
 
-已串接 Google Sheet：
+本版新增：
 
-- Sheet ID：`1Cdaui6RBqBMKHbsisoEifEJ3J7lAvXnu15Q9ymj2FTU`
-- 工作表：`情報事件`
-- 每頁：20 筆
+- 可樂旅遊文字識別
+- 日期以「年 → 月 → 週」收合
+- 日期篩選支援多選
+- 新增情報類型篩選
+- 卡片顯示情報類型 Tag
+- Drawer 顯示情報類型
+- 搜尋納入營業項目與情報類型
+- 相容 v2.4 Google Sheet 欄位
 
-## 上傳 GitHub
-解壓縮 ZIP 後，把 `index.html`、`styles.css`、`app.js`、`config.js`、`README.md` 上傳到 Repository 根目錄並覆蓋同名檔案。
+部署：
 
-## Google Sheet 權限
-請確認試算表為「知道連結的任何人可檢視」，且工作表名稱維持「情報事件」。
-
-## PM 快速摘要
-Google Sheet 可新增欄位 `PM 快速摘要`。尚未新增時，網站會暫時取 `PM Insight` 第一個句子作為備援。
+1. 解壓縮 ZIP。
+2. 覆蓋 GitHub Repository 中的同名檔案。
+3. Commit changes。
+4. 等待 GitHub Pages 更新後按 Ctrl + F5。
