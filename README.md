@@ -1,8 +1,10 @@
-# v2.4.1
+# v2.4.3 Header Layout Fix
 
-更新內容：
+只需覆蓋 index.html 與 styles.css。
 
-- Header 改用使用者指定的可樂旅遊橫式 Logo。
-- Logo 載入失敗時，會自動顯示文字版可樂旅遊識別，不再出現破圖。
-- 調整桌機與手機版 Logo 尺寸。
-- 本版只需覆蓋 index.html 與 styles.css。
+修正：
+- Logo 與標題距離縮短。
+- 移除 Logo 後方多餘空間。
+- 日期區塊與搜尋框保留完整寬度。
+- 桌機維持單排，窄螢幕才改為上下排列。
+- 其他卡片、篩選與 Drawer 樣式保持不變。
