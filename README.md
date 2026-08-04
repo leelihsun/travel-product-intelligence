@@ -1,19 +1,8 @@
-# 旅遊產品情報中心 v2.4
+# v2.4.1
 
-本版新增：
+更新內容：
 
-- 可樂旅遊文字識別
-- 日期以「年 → 月 → 週」收合
-- 日期篩選支援多選
-- 新增情報類型篩選
-- 卡片顯示情報類型 Tag
-- Drawer 顯示情報類型
-- 搜尋納入營業項目與情報類型
-- 相容 v2.4 Google Sheet 欄位
-
-部署：
-
-1. 解壓縮 ZIP。
-2. 覆蓋 GitHub Repository 中的同名檔案。
-3. Commit changes。
-4. 等待 GitHub Pages 更新後按 Ctrl + F5。
+- Header 改用使用者指定的可樂旅遊橫式 Logo。
+- Logo 載入失敗時，會自動顯示文字版可樂旅遊識別，不再出現破圖。
+- 調整桌機與手機版 Logo 尺寸。
+- 本版只需覆蓋 index.html 與 styles.css。
