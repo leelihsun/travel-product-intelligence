@@ -1,166 +1,556 @@
-<!doctype html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="可樂旅遊｜旅遊產品情報中心">
-  <title>可樂旅遊｜旅遊產品情報中心</title>
+:root{
+  --bg:#f6f7f9;
+  --surface:#fff;
+  --text:#172033;
+  --muted:#6b7280;
+  --line:#e4e8ee;
+  --accent:#164c9c;
+  --accent-soft:#edf3ff;
+  --cola:#d71920;
+  --cola-soft:#fff0f1;
+  --green:#2f7d32;
+  --green-bg:#edf8ed;
+  --amber:#8a5b00;
+  --amber-bg:#fff4d6;
+  --gray:#59636e;
+  --gray-bg:#eef1f4;
+  --purple:#6941c6;
+  --purple-soft:#f1edff;
+  font-family:"Noto Sans TC",system-ui,sans-serif;
+}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
+*{box-sizing:border-box}
 
-  <link rel="stylesheet" href="styles.css">
-</head>
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+}
 
-<body>
+body.drawer-open{overflow:hidden}
 
-  <header class="topbar">
+button,input,select{font:inherit}
 
-    <div class="brand-block">
+.topbar{
+  display:grid;
+  grid-template-columns:minmax(420px,1fr) auto minmax(280px,420px);
+  gap:28px;
+  align-items:center;
+  padding:18px 28px;
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
 
-      <div class="logo-wrap">
-        <img
-          class="cola-logo"
-          src="assets/logo/images.png"
-          alt="可樂旅遊 Logo">
-      </div>
+.brand-block{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  min-width:0;
+}
 
-      <div class="product-title">
-        <h1>旅遊產品情報中心</h1>
-        <p>Travel Product Intelligence</p>
-      </div>
+.logo-wrap{
+  width:170px;
+  min-height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  flex-shrink:0;
+}
 
-    </div>
+.cola-logo{
+  width:165px;
+  height:52px;
+  object-fit:contain;
+  object-position:left center;
+  display:block;
+}
 
-    <div class="header-tools">
+.logo-fallback{
+  display:flex;
+  flex-direction:column;
+  line-height:1;
+}
 
-      <div class="period-block">
-        <span>資料期間</span>
-        <strong id="periodText">—</strong>
-      </div>
+.fallback-main{
+  font-size:24px;
+  font-weight:700;
+  color:var(--cola);
+  letter-spacing:.05em;
+}
 
-      <div class="search-block">
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="搜尋標題、摘要、PM Insight、Tag">
-      </div>
+.fallback-sub{
+  margin-top:4px;
+  font-size:10px;
+  color:var(--cola);
+  letter-spacing:.22em;
+}
 
-    </div>
+.product-title{
+  padding-left:18px;
+  border-left:1px solid var(--line);
+  min-width:0;
+}
 
-  </header>
+.product-title h1{
+  margin:0;
+  font-size:21px;
+  white-space:nowrap;
+}
 
-  <main class="app-shell">
+.product-title p{
+  margin:2px 0 0;
+  color:var(--muted);
+  font-size:12px;
+  white-space:nowrap;
+}
 
-    <aside class="sidebar">
+.period-block{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  font-size:14px;
+  white-space:nowrap;
+}
 
-      <section class="filter-section">
-        <div class="filter-heading">
-          <h2>日期</h2>
-        </div>
-        <div id="dateFilters" class="date-tree"></div>
-      </section>
+.period-block span{color:var(--muted)}
 
-      <section class="filter-section">
-        <div class="filter-heading">
-          <h2>營業項目</h2>
-        </div>
-        <div id="productFilters" class="filter-list"></div>
-      </section>
+.search-block input{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:11px 14px;
+  background:#fff;
+}
 
-      <section class="filter-section">
-        <div class="filter-heading">
-          <h2>情報類型</h2>
-        </div>
-        <div id="typeFilters" class="filter-list"></div>
-      </section>
+.search-block input:focus{
+  outline:2px solid #c8d9f4;
+  border-color:var(--accent);
+}
 
-      <section class="filter-section">
-        <div class="filter-heading">
-          <h2>競品</h2>
-        </div>
-        <div id="competitorFilters" class="filter-list"></div>
-      </section>
+.app-shell{
+  display:grid;
+  grid-template-columns:300px minmax(0,1fr);
+  min-height:calc(100vh - 81px);
+}
 
-      <button
-        id="resetFilters"
-        class="reset-button"
-        type="button">
-        清除所有篩選
-      </button>
+.sidebar{
+  padding:24px 20px;
+  border-right:1px solid var(--line);
+  background:#fbfcfd;
+  position:sticky;
+  top:81px;
+  height:calc(100vh - 81px);
+  overflow:auto;
+}
 
-    </aside>
+.filter-section + .filter-section{margin-top:28px}
+.filter-heading{margin-bottom:12px}
+.filter-heading h2{margin:0;font-size:15px}
+.filter-list{display:grid;gap:6px}
 
-    <section class="main-content">
+.date-tree{display:grid;gap:6px}
+.date-year,.date-month{display:grid;gap:4px}
+.date-month{margin-left:14px}
+.date-week-list{display:grid;gap:5px;margin-left:16px}
 
-      <div class="toolbar">
+.tree-toggle{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  width:100%;
+  border:0;
+  background:transparent;
+  border-radius:8px;
+  padding:7px 8px;
+  cursor:pointer;
+  color:var(--text);
+  font-weight:700;
+  text-align:left;
+}
 
-        <div>
-          <span class="toolbar-label">共</span>
-          <strong id="visibleCount">0</strong>
-          <span class="toolbar-label">筆情報</span>
-        </div>
+.tree-toggle:hover{background:#f0f3f7}
+.year-toggle{font-size:15px}
+.month-toggle{font-size:14px}
+.tree-arrow{width:14px;color:var(--muted)}
 
-        <select id="sortSelect" aria-label="排序">
-          <option value="newest">最新發布</option>
-          <option value="oldest">最舊發布</option>
-        </select>
+.filter-option{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  border:0;
+  background:transparent;
+  border-radius:10px;
+  padding:9px 10px;
+  cursor:pointer;
+  color:var(--text);
+  text-align:left;
+}
 
-      </div>
+.filter-option:hover{background:#f0f3f7}
 
-      <div id="feed" class="feed"></div>
+.filter-option.active{
+  background:var(--accent-soft);
+  color:var(--accent);
+  font-weight:700;
+}
 
-      <div
-        id="emptyState"
-        class="empty-state"
-        hidden>
+.filter-option .left{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
 
-        <h2>沒有符合條件的情報</h2>
-        <p>請調整日期、營業項目、情報類型、競品或搜尋關鍵字。</p>
+.checkbox{
+  width:17px;
+  height:17px;
+  border:1px solid #bcc4d0;
+  border-radius:4px;
+  display:grid;
+  place-items:center;
+  font-size:12px;
+  background:#fff;
+  color:#fff;
+  flex:none;
+}
 
-      </div>
+.filter-option.active .checkbox{
+  background:var(--accent);
+  border-color:var(--accent);
+}
 
-      <nav
-        id="pagination"
-        class="pagination"
-        aria-label="分頁">
-      </nav>
+.count{color:var(--muted);font-size:13px}
+.week-option{padding-left:8px}
 
-    </section>
+.reset-button{
+  width:100%;
+  margin-top:28px;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:10px;
+  padding:10px;
+  cursor:pointer;
+}
 
-  </main>
+.reset-button:hover{background:#f5f7fa}
 
-  <div
-    id="detailOverlay"
-    class="detail-overlay"
-    hidden>
+.main-content{
+  padding:24px 28px 40px;
+  max-width:1020px;
+  width:100%;
+  margin:0 auto;
+}
 
-    <button
-      id="overlayBackdrop"
-      class="overlay-backdrop"
-      aria-label="關閉詳情">
-    </button>
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
 
-    <aside class="detail-panel">
+.toolbar strong{font-size:22px;margin:0 4px}
+.toolbar-label{color:var(--muted)}
 
-      <button
-        id="closeDetail"
-        class="close-button"
-        aria-label="關閉">
-        ×
-      </button>
+.toolbar select{
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:9px 12px;
+  background:#fff;
+}
 
-      <div id="detailContent"></div>
+.feed{display:grid;gap:16px}
 
-    </aside>
+.card{
+  min-height:330px;
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  border:1px solid var(--line);
+  background:var(--surface);
+  border-radius:18px;
+  padding:22px;
+  cursor:pointer;
+  text-align:left;
+  color:inherit;
+  box-shadow:0 1px 2px rgba(16,24,40,.03);
+  transition:.16s ease;
+}
 
-  </div>
+.card:hover,
+.card:focus-visible{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(16,24,40,.08);
+  outline:none;
+  border-color:#cfd7e2;
+}
 
-  <script src="config.js"></script>
-  <script src="app.js" defer></script>
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+}
 
-</body>
-</html>
+.meta{color:var(--muted);font-size:13px}
+
+.action-badge{
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.action-badge.立即跟進{background:var(--green-bg);color:var(--green)}
+.action-badge.持續觀察{background:var(--amber-bg);color:var(--amber)}
+.action-badge.暫不處理{background:var(--gray-bg);color:var(--gray)}
+
+.card h2{
+  margin:12px 0;
+  font-size:23px;
+  line-height:1.45;
+}
+
+.quick-summary{
+  background:#fff8e6;
+  border-left:4px solid #f0b84b;
+  border-radius:10px;
+  padding:12px 14px;
+}
+
+.quick-label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  color:#8a5b00;
+  margin-bottom:5px;
+}
+
+.quick-summary p{
+  margin:0;
+  color:#3f3a2f;
+  line-height:1.7;
+}
+
+.card-summary{
+  margin:14px 0 18px;
+  color:#556070;
+  line-height:1.75;
+}
+
+.tag-groups{display:grid;gap:8px}
+.tag-row{display:flex;flex-wrap:wrap;gap:7px}
+
+.tag{
+  font-size:12px;
+  padding:5px 9px;
+  border-radius:999px;
+}
+
+.product-tag{background:#eef3fb;color:#315d9b}
+.type-tag{background:var(--purple-soft);color:var(--purple)}
+
+.card-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+  margin-top:auto;
+  padding-top:16px;
+}
+
+.week-label{font-size:12px;color:var(--muted)}
+.read-more{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap}
+
+.pagination{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  margin-top:24px;
+  flex-wrap:wrap;
+}
+
+.page-button{
+  min-width:36px;
+  height:36px;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:8px;
+  cursor:pointer;
+  padding:0 10px;
+}
+
+.page-button.active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+
+.page-button:disabled{opacity:.45;cursor:not-allowed}
+
+.empty-state{
+  text-align:center;
+  padding:70px 20px;
+  color:var(--muted);
+}
+
+.detail-overlay{position:fixed;inset:0;z-index:100}
+
+.overlay-backdrop{
+  position:absolute;
+  inset:0;
+  border:0;
+  background:rgba(15,23,42,.52);
+  width:100%;
+  height:100%;
+}
+
+.detail-panel{
+  position:absolute;
+  right:0;
+  top:0;
+  height:100%;
+  width:min(760px,94vw);
+  background:#fff;
+  overflow:auto;
+  box-shadow:-18px 0 48px rgba(15,23,42,.22);
+}
+
+.close-button{
+  position:sticky;
+  z-index:2;
+  float:right;
+  top:14px;
+  margin:14px 14px 0 0;
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:#eef1f4;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.detail-inner{padding:44px 40px 64px}
+
+.detail-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding-right:50px;
+}
+
+.brand-tag{background:var(--cola-soft);color:var(--cola)}
+.date-tag{background:#f1f3f5;color:#59636e}
+
+.detail-inner h2{
+  font-size:31px;
+  line-height:1.4;
+  margin:16px 0 8px;
+}
+
+.detail-section{
+  border-top:1px solid var(--line);
+  padding-top:22px;
+  margin-top:22px;
+}
+
+.detail-section h3{margin:0 0 10px;font-size:16px}
+
+.detail-section p{
+  margin:0;
+  line-height:1.9;
+  color:#3f4958;
+  white-space:pre-wrap;
+}
+
+.detail-highlight{
+  border-top:0;
+  background:#fff8e6;
+  border-left:4px solid #f0b84b;
+  border-radius:12px;
+  padding:16px 18px;
+  margin-top:22px;
+}
+
+.detail-highlight h3{color:#8a5b00}
+
+.detail-insight{
+  background:#f5f8fc;
+  border-radius:12px;
+  padding:18px;
+}
+
+.source-link{
+  display:inline-block;
+  margin-top:26px;
+  color:var(--accent);
+  font-weight:700;
+  text-decoration:none;
+}
+
+@media(max-width:1100px){
+  .topbar{
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+
+  .search-block{grid-column:1/-1}
+}
+
+@media(max-width:980px){
+  .topbar{grid-template-columns:1fr}
+  .period-block{width:max-content}
+  .app-shell{grid-template-columns:1fr}
+
+  .sidebar{
+    position:static;
+    height:auto;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .main-content{padding:20px}
+  .card{min-height:auto}
+}
+
+@media(max-width:620px){
+  .brand-block{
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .logo-wrap{
+    width:120px;
+    min-height:44px;
+  }
+
+  .cola-logo{
+    width:120px;
+    height:44px;
+  }
+
+  .fallback-main{font-size:20px}
+  .fallback-sub{font-size:9px}
+
+  .product-title{padding-left:12px}
+
+  .product-title h1{
+    font-size:18px;
+    white-space:normal;
+  }
+
+  .product-title p{white-space:normal}
+
+  .card-footer{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
