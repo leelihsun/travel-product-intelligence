@@ -108,12 +108,25 @@ function setPeriod(){
   $("periodText").textContent=dates.length?`${formatFullDate(dates[0])}－${formatFullDate(dates[dates.length-1])}`:"—";
 }
 
+function parseLocalDate(dateString){
+  const match=String(dateString||"").match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if(!match)return null;
+  const date=new Date(Number(match[1]),Number(match[2])-1,Number(match[3]));
+  return Number.isNaN(date.getTime())?null:date;
+}
+
+function localDateKey(date){
+  const year=date.getFullYear();
+  const month=String(date.getMonth()+1).padStart(2,"0");
+  const day=String(date.getDate()).padStart(2,"0");
+  return `${year}-${month}-${day}`;
+}
+
 function startOfWeek(date){
-  const d=new Date(date);
+  const d=new Date(date.getFullYear(),date.getMonth(),date.getDate());
   const day=d.getDay();
   const diff=day===0?-6:1-day;
   d.setDate(d.getDate()+diff);
-  d.setHours(0,0,0,0);
   return d;
 }
 
@@ -124,14 +137,15 @@ function endOfWeek(date){
 }
 
 function weekKeyFromDate(dateString){
-  const d=new Date(`${dateString}T00:00:00`);
-  if(Number.isNaN(d.getTime()))return dateString;
-  return startOfWeek(d).toISOString().slice(0,10);
+  const date=parseLocalDate(dateString);
+  if(!date)return dateString;
+  return localDateKey(startOfWeek(date));
 }
 
 function weekLabel(key){
-  const start=new Date(`${key}T00:00:00`);
-  const end=endOfWeek(start);
+  const start=parseLocalDate(key);
+  if(!start)return key;
+  const end=new Date(start.getFullYear(),start.getMonth(),start.getDate()+6);
   return `${start.getMonth()+1}/${start.getDate()}–${end.getMonth()+1}/${end.getDate()}`;
 }
 
@@ -140,7 +154,7 @@ function buildDateTree(){
   events.forEach(e=>{
     if(!e["發現日期"])return;
     const weekKey=weekKeyFromDate(e["發現日期"]);
-    const start=new Date(`${weekKey}T00:00:00`);
+    const start=parseLocalDate(weekKey);
     const year=start.getFullYear();
     const month=start.getMonth()+1;
     tree[year]??={};
